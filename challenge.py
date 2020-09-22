@@ -21,8 +21,6 @@ class reMarketsAPI:
         self.status = 'OK'
         self.verbose = verbose
 
-    
-
         try:
             pyRofex.initialize(user=remarkets_user,
                        password=remarkets_pass,
@@ -81,6 +79,7 @@ class reMarketsAPI:
                            size=1,
                            price=entrada,
                            order_type=pyRofex.OrderType.LIMIT)
+
         if order['status']=='ERROR':
             self.print('Error al realizar una órden: {}'.format(order['description']))
             return False
@@ -88,12 +87,11 @@ class reMarketsAPI:
         order_status = pyRofex.get_order_status(order["order"]["clientId"])
 
         while True:
-
             if order_status["order"]['status']=='NEW':
                 self.print('Ingresando orden a ${}'.format(entrada))
                 return True
             else:
-                # control de errores para otros posibles estados 
+                # TODO: control de errores para otros posibles estados 
                 time.sleep(1)
                 cont +=1
 
